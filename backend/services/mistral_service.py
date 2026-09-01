@@ -1,15 +1,32 @@
 import os
 import httpx
 from typing import Optional
+from pathlib import Path
+
+# Load .env from backend directory if present
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    load_dotenv(dotenv_path=env_path)
+except ImportError:
+    # Fallback to manual parser if python-dotenv is not installed
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if env_path.exists():
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip())
 
 class LLMService:
     """
     Mistral AI Cloud Inference Service:
     Executes live analytical cross-agent debate between Market, Evidence, and Mirror agents.
     """
-    MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY", "gOYLxl4KvyjTWjEaWIgFdv9GZThrBgqh")
+    MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY", "")
     MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
-    MISTRAL_MODEL = "mistral-small-latest"
+    MISTRAL_MODEL = os.environ.get("MISTRAL_MODEL", "mistral-small-latest")
 
     @classmethod
     async def generate_debate_argument(
