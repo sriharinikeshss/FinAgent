@@ -11,7 +11,7 @@ from agents.market_agent import MarketAgent
 from agents.sentiment_agent import SentimentAgent
 from agents.evidence_agent import EvidenceAgent
 from agents.mirror_agent import MirrorAgent
-from services.ollama_service import LLMService
+from services.mistral_service import LLMService
 from services.data_service import DataService
 
 class DecisionEngine:
