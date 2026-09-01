@@ -1,0 +1,106 @@
+﻿{
+  "RELIANCE": [
+    {
+      "title": "Q4 FY24 Earnings Report - Reliance Industries Limited",
+      "doc_type": "Earnings Report",
+      "filing_id": "RIL-ER-2024-Q4",
+      "date": "2024-04-22",
+      "relevance_score": 0.94,
+      "excerpt": "Consolidated net profit increased 19% YoY driven by robust O2C (Oil-to-Chemical) margin recovery, double-digit ARPU expansion in telecom (Jio), and 24% square footage growth in retail network."
+    },
+    {
+      "title": "Exchange Filing - Reg 30 Material Event Disclosure",
+      "doc_type": "Regulatory Filing",
+      "filing_id": "SEBI-REG30-89104",
+      "date": "2024-05-14",
+      "relevance_score": 0.88,
+      "excerpt": "Discloses capital allocation of Rs 75,000 Cr for renewable energy gigafactories in Jamnagar. Net debt to EBITDA remains comfortable at 0.72x with average debt maturity profile of 6.8 years."
+    },
+    {
+      "title": "Analyst Note - ICICI Securities Institutional Research",
+      "doc_type": "Analyst Note",
+      "filing_id": "ICICI-EQ-RIL-0524",
+      "date": "2024-05-28",
+      "relevance_score": 0.82,
+      "excerpt": "Energy segment margins exhibit strong refining spread stability. However, consolidated valuation multiples (EV/EBITDA at 12.8x) trade near the +1.5 standard deviation historical band."
+    }
+  ],
+  "TCS": [
+    {
+      "title": "Q4 FY24 Audited Financial Statement - Tata Consultancy Services",
+      "doc_type": "Earnings Report",
+      "filing_id": "TCS-AUD-2024-Q4",
+      "date": "2024-04-12",
+      "relevance_score": 0.92,
+      "excerpt": "Constant currency revenue growth stood at 3.5% YoY with operating margin expanding 150 bps to 26.0%. Order book Total Contract Value (TCV) reached an all-time record of $13.2 Billion."
+    },
+    {
+      "title": "SEBI Corporate Governance Report - FY24",
+      "doc_type": "Regulatory Filing",
+      "filing_id": "SEBI-CG-TCS-2024",
+      "date": "2024-05-02",
+      "relevance_score": 0.86,
+      "excerpt": "Attrition moderated further to 12.5% LTM. Board approved dividend payout ratio of 82% of net income with zero long-term debt on standalone balance sheet."
+    },
+    {
+      "title": "Kotak Institutional Equities Sector Outlook - Indian IT",
+      "doc_type": "Analyst Note",
+      "filing_id": "KIE-IT-2024-06",
+      "date": "2024-06-10",
+      "relevance_score": 0.80,
+      "excerpt": "Discretionary IT spending in North American BFSI client base shows nascent green shoots, though deal cycle duration remains extended compared to historical averages."
+    }
+  ],
+  "INFY": [
+    {
+      "title": "Q4 FY24 Investor Presentation - Infosys Limited",
+      "doc_type": "Earnings Report",
+      "filing_id": "INFY-INV-2024-Q4",
+      "date": "2024-04-18",
+      "relevance_score": 0.91,
+      "excerpt": "FY25 constant currency revenue guidance pegged at 1.0% to 3.0% with operating margin band guided between 20.0% and 22.0%. Large deal TCV came in at $4.5 Billion for the quarter."
+    },
+    {
+      "title": "SEBI Shareholding Pattern & Insider Trading Report",
+      "doc_type": "Regulatory Filing",
+      "filing_id": "SEBI-PIT-INFY-2024",
+      "date": "2024-04-30",
+      "relevance_score": 0.85,
+      "excerpt": "Zero promoter pledge. FII holding stabilized at 33.8% following consecutive quarters of marginal outflow."
+    },
+    {
+      "title": "Motilal Oswal Institutional Research - IT Services",
+      "doc_type": "Analyst Note",
+      "filing_id": "MOFSL-INFY-0524",
+      "date": "2024-05-18",
+      "relevance_score": 0.79,
+      "excerpt": "Subdued near-term discretionary enterprise budgets in Europe offset by solid generative AI delivery pipeline (Topaz platform adoption up 40% QoQ)."
+    }
+  ],
+  "HDFCBANK": [
+    {
+      "title": "Q4 FY24 Financial Results - HDFC Bank Limited",
+      "doc_type": "Earnings Report",
+      "filing_id": "HDFCB-ER-2024-Q4",
+      "date": "2024-04-20",
+      "relevance_score": 0.95,
+      "excerpt": "Net Interest Margin (NIM) stabilized at 3.44% on total assets (3.63% on earning assets). Gross NPA maintained at 1.24% with provision coverage ratio (PCR) healthy at 74.0%."
+    },
+    {
+      "title": "RBI / SEBI Merger Harmonization & Compliance Disclosure",
+      "doc_type": "Regulatory Filing",
+      "filing_id": "RBI-HDFC-DISC-2024",
+      "date": "2024-05-11",
+      "relevance_score": 0.89,
+      "excerpt": "Post-merger Credit-Deposit (CD) ratio systematically moderated from 110% towards 104% through aggressive retail deposit mobilization (up 26.4% YoY)."
+    },
+    {
+      "title": "Axis Capital Banking Desk Review",
+      "doc_type": "Analyst Note",
+      "filing_id": "AXIS-BNK-HDFCB-0624",
+      "date": "2024-06-05",
+      "relevance_score": 0.84,
+      "excerpt": "Core retail franchise strength continues to outpace private sector peers. Price-to-Adjusted Book Value (P/ABV) of 2.4x is at a 5-year cyclical low, offering attractive risk-adjusted margin of safety."
+    }
+  ]
+}
