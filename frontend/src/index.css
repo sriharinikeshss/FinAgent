@@ -1,28 +1,100 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --primary: #2563eb;
-    --primary-foreground: #ffffff;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --border: #e2e8f0;
-  }
+@theme {
+  --color-surface-tint: #795463;
+  --color-error: #ba1a1a;
+  --color-on-surface: #1e1b1c;
+  --color-outline: #817478;
+  --color-on-tertiary-container: #d79e96;
+  --color-secondary: #904a47;
+  --color-surface-container-highest: #e9e0e1;
+  --color-on-primary-container: #cca0b0;
+  --color-primary-fixed: #ffd8e6;
+  --color-surface-container-low: #faf1f2;
+  --color-primary-fixed-dim: #e8bacb;
+  --color-surface-bright: #fff8f8;
+  --color-on-error-container: #93000a;
+  --color-outline-variant: #d2c3c7;
+  --color-on-background: #1e1b1c;
+  --color-on-secondary-fixed-variant: #733331;
+  --color-on-primary-fixed: #2e121f;
+  --color-surface-container-high: #efe6e7;
+  --color-surface-container-lowest: #ffffff;
+  --color-secondary-fixed: #ffdad7;
+  --color-surface-dim: #e0d8d9;
+  --color-surface: #fff8f8;
+  --color-on-secondary: #ffffff;
+  --color-surface-variant: #e9e0e1;
+  --color-background: #fff8f8;
+  --color-secondary-fixed-dim: #ffb3af;
+  --color-on-tertiary-fixed: #32120d;
+  --color-on-tertiary-fixed-variant: #663b36;
+  --color-primary-container: #573644;
+  --color-on-secondary-container: #793735;
+  --color-primary: #3e212e;
+  --color-inverse-primary: #e8bacb;
+  --color-on-error: #ffffff;
+  --color-surface-container: #f5eced;
+  --color-tertiary-container: #5e352f;
+  --color-on-primary: #ffffff;
+  --color-secondary-container: #fda49f;
+  --color-on-primary-fixed-variant: #5f3d4b;
+  --color-inverse-surface: #342f30;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-fixed-dim: #f4b8b0;
+  --color-inverse-on-surface: #f7eff0;
+  --color-tertiary: #44201b;
+  --color-on-surface-variant: #4f4447;
+  --color-tertiary-fixed: #ffdad5;
+  --color-error-container: #ffdad6;
+  --color-on-secondary-fixed: #3b080a;
 
+  --radius-DEFAULT: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+
+  --spacing-container-max: 1440px;
+  --spacing-stack-sm: 8px;
+  --spacing-card-padding: 24px;
+  --spacing-stack-md: 16px;
+  --spacing-gutter: 24px;
+  --spacing-margin-edge: 32px;
+  --spacing-stack-lg: 32px;
+
+  --font-body-lg: "Hanken Grotesk", sans-serif;
+  --font-label-md: "JetBrains Mono", monospace;
+  --font-headline-md: "Hanken Grotesk", sans-serif;
+  --font-body-sm: "Hanken Grotesk", sans-serif;
+  --font-headline-lg-mobile: "Hanken Grotesk", sans-serif;
+  --font-headline-xl: "Hanken Grotesk", sans-serif;
+  --font-body-md: "Hanken Grotesk", sans-serif;
+  --font-headline-lg: "Hanken Grotesk", sans-serif;
+  --font-headline-sm: "Hanken Grotesk", sans-serif;
+}
+
+@layer base {
   body {
-    background-color: #f8fafc;
-    color: #0f172a;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+    font-family: var(--font-body-md);
     margin: 0;
     padding: 0;
     min-height: 100vh;
   }
 
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+  
+  .signal-bullish { color: #166534; background-color: #dcfce7; }
+  .signal-neutral { color: #0f172a; background-color: #f1f5f9; }
+  .signal-bearish { color: #991b1b; background-color: #fee2e2; }
+
+  /* Ensure #root handles height properly */
   #root {
     min-height: 100vh;
     width: 100%;
@@ -31,4 +103,3 @@
     border: none;
   }
 }
-

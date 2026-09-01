@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aegis Intelligence - Research Report</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#795463",
+                        "error": "#ba1a1a",
+                        "on-surface": "#1e1b1c",
+                        "outline": "#817478",
+                        "on-tertiary-container": "#d79e96",
+                        "secondary": "#904a47",
+                        "surface-container-highest": "#e9e0e1",
+                        "on-primary-container": "#cca0b0",
+                        "primary-fixed": "#ffd8e6",
+                        "surface-container-low": "#faf1f2",
+                        "primary-fixed-dim": "#e8bacb",
+                        "surface-bright": "#fff8f8",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#d2c3c7",
+                        "on-background": "#1e1b1c",
+                        "on-secondary-fixed-variant": "#733331",
+                        "on-primary-fixed": "#2e121f",
+                        "surface-container-high": "#efe6e7",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#ffdad7",
+                        "surface-dim": "#e0d8d9",
+                        "surface": "#fff8f8",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e9e0e1",
+                        "background": "#fff8f8",
+                        "secondary-fixed-dim": "#ffb3af",
+                        "on-tertiary-fixed": "#32120d",
+                        "on-tertiary-fixed-variant": "#663b36",
+                        "primary-container": "#573644",
+                        "on-secondary-container": "#793735",
+                        "primary": "#3e212e",
+                        "inverse-primary": "#e8bacb",
+                        "on-error": "#ffffff",
+                        "surface-container": "#f5eced",
+                        "tertiary-container": "#5e352f",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fda49f",
+                        "on-primary-fixed-variant": "#5f3d4b",
+                        "inverse-surface": "#342f30",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#f4b8b0",
+                        "inverse-on-surface": "#f7eff0",
+                        "tertiary": "#44201b",
+                        "on-surface-variant": "#4f4447",
+                        "tertiary-fixed": "#ffdad5",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#3b080a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "stack-sm": "8px",
+                        "card-padding": "24px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "margin-edge": "32px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; background-color: #fff8f8; }
+        .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; -webkit-font-smoothing: antialiased; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-surface flex flex-col border-r border-outline-variant shadow-sm z-50">
+<div class="p-6 border-b border-outline-variant">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Aegis Intelligence</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Autonomous v2.4</p>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1 px-3">
+<li>
+<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined mr-3">psychology</span>
+<span class="font-label-md text-label-md">Reasoning Lab</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-primary-fixed/10 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-md text-label-md">Research Reports</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined mr-3">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="p-6 mt-auto">
+<button class="w-full flex items-center justify-center py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined mr-2 text-[18px]">add</span>
+                New Analysis
+            </button>
+<div class="mt-6 flex items-center pt-4 border-t border-outline-variant">
+<img alt="System Operator Avatar" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a financial system operator, minimalist aesthetic, sharp focus, neutral background, high-key lighting, modern corporate vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd2mH2T6xrHYsHO8OYXs8ZH2cLiNLPu1fIeiEt1oUI9U0b8XrdrbLltxN0s769tjgu-f6ljgINP7dXFr7Px6jdvwzmYRlQ-vvg_vkv0PYrnEoEEv8DbppyKS2-pMQ0BouUQcOQjDtT2wXZx_V6f_qfz7u93_y2t1PuD5dgWVohP8Suvh16YpTLyigyDftzoRM1PLJmTPMhRXxElN9lK_bhXGKpr4QutXZSYp-sYbvO4FVK2EsOpCpXUg"/>
+<div class="ml-3">
+<p class="font-label-md text-label-md font-bold text-on-surface">Op: 894-A</p>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-75">Active Session</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-surface-container flex justify-between items-center px-gutter z-40 transition-all duration-200 ease-in-out border-b border-surface-container-highest shadow-sm">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-md text-headline-md font-black text-on-surface tracking-tight">Financial Intelligence</h2>
+<nav class="hidden md:flex gap-4 border-l border-outline-variant pl-6">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors" href="#">Market: LIVE</a>
+<a class="text-primary font-bold border-b-2 border-primary font-label-md text-label-md pb-1" href="#">Risk: Aggressive</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface rounded-full border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary text-body-sm font-body-sm w-64 transition-all placeholder:text-outline-variant" placeholder="Search SEC, NSE filings..." type="text"/>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-surface-container"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-gutter w-full max-w-container-max mx-auto overflow-x-hidden">
+<!-- Header Section -->
+<div class="mb-stack-lg flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-1 bg-tertiary-container/10 text-tertiary font-label-md text-label-md rounded border border-tertiary/20">TICKER: HDFCBANK</span>
+<span class="px-2 py-1 bg-secondary-container/10 text-secondary font-label-md text-label-md rounded border border-secondary/20">NSE: LARGE CAP</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">Deep Dive Structural Analysis</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Generated: 2023-10-27 14:00 UTC | Confidence: High</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span> Export PDF
+                </button>
+<button class="px-4 py-2 rounded bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm">
+                    Execute Trade Strategy
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-stack-md">
+<!-- Executive Rationale (Span 8) -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-card-padding shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-stack-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Executive Rationale</h3>
+</div>
+<button class="text-outline hover:text-on-surface"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 leading-relaxed">
+                    HDFC Bank demonstrates robust structural integrity post-merger, despite near-term NIM compression. The core deposit growth trajectory aligns with historical averages, mitigating liquidity concerns raised in the previous quarter. Strategic loan book rebalancing towards higher-yield retail segments is evident in recent filings.
+                </p>
+<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="p-4 bg-surface-container-low rounded-lg border border-surface-container">
+<p class="font-label-md text-label-md text-outline mb-1">PRICE TARGET (12M)</p>
+<div class="flex items-end gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">₹1,850</span>
+<span class="font-body-sm text-body-sm text-secondary-fixed-dim bg-secondary-fixed-dim/10 px-2 py-0.5 rounded text-[12px] mb-1 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> +15.2%
+                            </span>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg border border-surface-container">
+<p class="font-label-md text-label-md text-outline mb-1">CONVICTION SCORE</p>
+<div class="flex items-center gap-3">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">8.4</span>
+<span class="font-label-md text-label-md text-on-surface-variant">/ 10</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Risk Analysis (Span 4) -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-card-padding shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-error"></div>
+<div class="flex justify-between items-start mb-stack-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error">warning</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Risk Matrix</h3>
+</div>
+</div>
+<ul class="space-y-4">
+<li class="pb-3 border-b border-surface-container">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface font-bold">NIM Compression</span>
+<span class="font-label-md text-label-md text-error bg-error/10 px-2 py-0.5 rounded">HIGH</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-error h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+</li>
+<li class="pb-3 border-b border-surface-container">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface font-bold">Regulatory Friction</span>
+<span class="font-label-md text-label-md text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">MED</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-tertiary h-1.5 rounded-full" style="width: 50%"></div>
+</div>
+</li>
+<li>
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-md text-label-md text-on-surface font-bold">Asset Quality</span>
+<span class="font-label-md text-label-md text-outline bg-outline/10 px-2 py-0.5 rounded">LOW</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-outline h-1.5 rounded-full" style="width: 20%"></div>
+</div>
+</li>
+</ul>
+</div>
+<!-- Grounded Evidence (Span 12) -->
+<div class="md:col-span-12 bg-surface-container-lowest rounded-xl border border-outline-variant p-card-padding shadow-sm mt-stack-sm relative">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex items-center gap-2 mb-stack-md">
+<span class="material-symbols-outlined text-secondary">fact_check</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Grounded Evidence &amp; Citations</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Citation 1 -->
+<div class="p-4 bg-surface-variant/30 rounded-lg border border-surface-variant hover:border-secondary/50 transition-colors cursor-pointer group">
+<div class="flex items-start justify-between mb-2">
+<span class="font-label-md text-label-md bg-secondary/10 text-secondary px-2 py-1 rounded border border-secondary/20 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">assured_workload</span> SEBI FILING
+                            </span>
+<span class="font-label-md text-label-md text-outline">Oct 15, 2023</span>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-2 group-hover:text-secondary transition-colors">Q2 Shareholding Pattern Disclosure</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Foreign Institutional Investor (FII) holding stabilized at 52.4%, indicating waning sell-off pressure post-merger adjustments. Mutual Fund exposure increased by 120bps.</p>
+<div class="mt-3 flex items-center gap-2 text-secondary font-label-md text-label-md">
+                            View Source Document <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+<!-- Citation 2 -->
+<div class="p-4 bg-surface-variant/30 rounded-lg border border-surface-variant hover:border-secondary/50 transition-colors cursor-pointer group">
+<div class="flex items-start justify-between mb-2">
+<span class="font-label-md text-label-md bg-tertiary/10 text-tertiary px-2 py-1 rounded border border-tertiary/20 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">show_chart</span> NSE DATA
+                            </span>
+<span class="font-label-md text-label-md text-outline">Oct 26, 2023</span>
+</div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface mb-2 group-hover:text-tertiary transition-colors">Derivative Positioning &amp; OI Build-up</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Significant Put writing observed at 1500 and 1480 levels for the Nov expiry, suggesting strong technical support. PCR ratio skewed slightly bullish at 1.15.</p>
+<div class="mt-3 flex items-center gap-2 text-tertiary font-label-md text-label-md">
+                            View Options Chain <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
