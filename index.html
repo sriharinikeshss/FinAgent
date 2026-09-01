@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meridian — Revenue Intelligence for SaaS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg">
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_075824_7c8a2ef3-826c-43ca-81a1-162429faa306.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    <div class="page">
+        <!-- Header / Nav -->
+        <header class="nav">
+            <nav class="nav__links" aria-label="Primary">
+                <a href="#">Platform</a>
+                <a href="#">Solutions</a>
+                <a href="#">Company</a>
+                <a href="#">Pricing</a>
+            </nav>
+            
+            <a class="logo" href="#" aria-label="Meridian">
+                <svg viewBox="0 0 42 34">
+                    <polygon points="12,0 30,0 33.2,3.2 15.2,3.2" />
+                    <polygon points="14.6,5.6 32.6,5.6 35.8,8.8 17.8,8.8" />
+                    <polygon points="17.2,11.2 35.2,11.2 38.4,14.4 20.4,14.4" />
+                    <polygon points="3.2,16.8 21.2,16.8 24.4,20 6.4,20" />
+                    <polygon points="5.8,22.4 23.8,22.4 27,25.6 9,25.6" />
+                    <polygon points="8.4,28 26.4,28 29.6,31.2 11.6,31.2" />
+                </svg>
+            </a>
+            
+            <a href="#" class="btn btn--nav desktop-btn">
+                <span>Book Demo</span>
+                <span class="icon">
+                    <svg viewBox="0 0 20 20">
+                        <path d="M4 10h10.2M10.4 5.6 15.2 10l-4.8 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                </span>
+            </a>
+
+            <button class="nav__burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </header>
+
+        <nav id="mobile-menu" hidden>
+            <div class="mobile-menu__inner">
+                <a href="#">Platform</a>
+                <a href="#">Solutions</a>
+                <a href="#">Company</a>
+                <a href="#">Pricing</a>
+                <a href="#" class="btn btn--nav">
+                    <span>Book Demo</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 20 20">
+                            <path d="M4 10h10.2M10.4 5.6 15.2 10l-4.8 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Hero -->
+        <main class="hero">
+            <div class="badge wipe" style="--d: 0.18s">
+                <span class="badge__icon"></span>
+                Revenue Intelligence for SaaS
+            </div>
+            
+            <h1 class="headline">
+                <span class="headline__mask">
+                    <span class="headline__rise" style="--d: 0.26s">Every revenue decision</span>
+                </span>
+                <span class="headline__mask">
+                    <span class="headline__line headline__rise" style="--d: 0.4s">
+                        <span class="headline__muted">starts with a </span><span class="headline__accent" data-text="better question.">better question.</span>
+                    </span>
+                </span>
+            </h1>
+            
+            <div class="actions">
+                <a href="#" class="btn btn--light wipe" style="--d: 0.56s">
+                    <span>Book Demo</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 20 20">
+                            <path d="M4 10h10.2M10.4 5.6 15.2 10l-4.8 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </span>
+                </a>
+                <div class="analysis-controls wipe" style="--d: 0.66s">
+                    <div class="select-wrapper">
+                        <select id="stock-select" class="glass-select">
+                            <option value="RELIANCE">RELIANCE</option>
+                            <option value="TCS">TCS</option>
+                            <option value="INFY">INFY</option>
+                            <option value="HDFCBANK">HDFCBANK</option>
+                        </select>
+                    </div>
+                    <div class="select-wrapper">
+                        <select id="profile-select" class="glass-select">
+                            <option value="conservative">Conservative</option>
+                            <option value="moderate">Moderate</option>
+                            <option value="aggressive">Aggressive</option>
+                        </select>
+                    </div>
+                    <button id="analyze-btn" class="btn btn--ghost analysis-btn">
+                        <span>Analyze Intelligence</span>
+                    </button>
+                    <!-- Loading Spinner -->
+                    <div id="loading" class="loading-spinner" hidden>
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Bottom Lede -->
+        <div class="lede">
+            <div class="lede__rise" style="--d: 0.78s">
+                Meridian continuously analyzes product usage, customer behavior and commercial data to identify expansion opportunities, predict revenue risk, and recommend the highest-impact actions for your team.
+            </div>
+        </div>
+
+        <!-- MAAFIS Aegis Intelligence Dashboard (Hidden by default) -->
+        <div id="maafis-app" class="maafis-theme" hidden>
+            <!-- Sidebar -->
+            <aside class="maafis-sidebar">
+                <div class="maafis-sidebar__logo">
+                    <h2>Aegis Intelligence</h2>
+                    <span>Autonomous v2.4</span>
+                </div>
+                <nav class="maafis-sidebar__nav">
+                    <a href="#" class="active"><span class="icon">⊞</span> Dashboard</a>
+                    <a href="#"><span class="icon">⚲</span> Reasoning Lab</a>
+                    <a href="#"><span class="icon">▤</span> Research Reports</a>
+                    <a href="#"><span class="icon">👤</span> Profile</a>
+                </nav>
+                <div class="maafis-sidebar__footer">
+                    <button class="maafis-btn maafis-btn-full" id="close-maafis-btn">Close Analysis</button>
+                    <!-- User Account profile block -->
+                    <div class="maafis-profile">
+                        <img src="https://i.pravatar.cc/150?img=47" alt="Profile" />
+                        <div>
+                            <strong>Op: 894-A</strong>
+                            <span>Active Session</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="maafis-main">
+                <!-- Topbar -->
+                <header class="maafis-topbar">
+                    <div class="topbar-left">
+                        <h2>Financial Intelligence</h2>
+                        <span class="pill">Market: LIVE</span>
+                        <span class="pill pill--risk">Risk: Aggressive</span>
+                    </div>
+                    <div class="topbar-right">
+                        <span>🔔</span>
+                        <span>⚙️</span>
+                        <img class="avatar" src="https://i.pravatar.cc/150?img=47" alt="Avatar"/>
+                    </div>
+                </header>
+
+                <!-- Dashboard Content Area -->
+                <div class="maafis-content">
+                    
+                    <div class="maafis-grid top-row">
+                        <!-- Overview Box -->
+                        <div class="maafis-card bordered-red">
+                            <div class="card-header">
+                                <h4 id="dash-stock-name">Stock Overview</h4>
+                                <span>...</span>
+                            </div>
+                            <div class="card-price">
+                                <span class="price-big" id="score-market">--</span>
+                                <span class="price-diff negative" id="price-diff"></span>
+                            </div>
+                            <!-- Chart Area -->
+                            <div class="chart-placeholder">
+                                <span id="verdict-market">Multi-Colored Line Chart Visualization Area</span>
+                            </div>
+                        </div>
+
+                        <!-- Consensus Engine -->
+                        <div class="maafis-card bordered-red">
+                            <div class="card-header">
+                                <h4>Consensus Engine</h4>
+                                <span>...</span>
+                            </div>
+                            <!-- Diamond structure -->
+                            <div class="consensus-diamond">
+                                <div class="diamond-shape"></div>
+                                <div class="diamond-score" id="score-gap">--<br/></div>
+                            </div>
+                            <div class="consensus-footer">
+                                <div class="c-tech">Technicals <strong class="text-bullish" id="verdict-gap"></strong></div>
+                                <div class="c-sent">Sentiment <strong class="text-neutral">Neutral</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Market Debate synthesis block -->
+                    <div class="maafis-card bordered-red margin-top-lg orchestrator-block">
+                        <div class="card-header label-top">
+                            <span class="orchestrator-label">⚙ Orchestrator Output</span>
+                        </div>
+                        <h3>Synthesized Strategy: <span id="verdict-headline">--</span></h3>
+                        <p id="verdict-explanation" class="strategy-details">Processing...</p>
+                        
+                        <div class="debate-stream" id="debate-messages">
+                            <!-- debate texts -->
+                        </div>
+                        
+                        <div class="consensus-score-box">
+                            <span class="score-label">CONSENSUS SCORE</span>
+                            <div class="score-val"><strong>--</strong>/10</div>
+                            <button class="maafis-btn maafis-btn-full">Execute Recommendation</button>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
