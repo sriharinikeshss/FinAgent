@@ -356,6 +356,29 @@ export default function App() {
 
         {/* AI Overlay & Mode Toggles */}
         <div className="flex items-center gap-2">
+          {/* Prominent 1-Click Multi-Persona Scenario Button */}
+          <button
+            onClick={handleRunDemoScenario}
+            disabled={isDemoRunning}
+            className={`flex items-center gap-1.5 text-xs font-black px-3.5 py-1.5 rounded-lg border transition-all shadow-xs cursor-pointer ${
+              isDemoRunning
+                ? 'bg-amber-500 border-amber-500 text-white animate-pulse'
+                : 'bg-gradient-to-r from-blue-600 to-indigo-600 border-blue-600 text-white hover:from-blue-500 hover:to-indigo-500 shadow-blue-500/20'
+            }`}
+          >
+            {isDemoRunning ? (
+              <>
+                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                <span>Simulating Persona {demoStep}/3...</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>▶ Run Multi-Persona Scenario</span>
+              </>
+            )}
+          </button>
+
           <button
             onClick={() => setDegradedMode(!degradedMode)}
             className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-all ${
