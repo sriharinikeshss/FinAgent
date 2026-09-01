@@ -3,30 +3,45 @@ import httpx
 from typing import Optional
 from pathlib import Path
 
-# Load .env from backend directory if present
-try:
-    from dotenv import load_dotenv
-    env_path = Path(__file__).resolve().parent.parent / ".env"
-    load_dotenv(dotenv_path=env_path)
-except ImportError:
-    # Fallback to manual parser if python-dotenv is not installed
-    env_path = Path(__file__).resolve().parent.parent / ".env"
-    if env_path.exists():
-        with open(env_path, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                    k, v = line.split("=", 1)
-                    os.environ.setdefault(k.strip(), v.strip())
+def _load_env():
+    # Look for .env in current and parent directories
+    possible_paths = [
+        Path(__file__).resolve().parent.parent / ".env",
+        Path(__file__).resolve().parent / ".env",
+        Path.cwd() / ".env",
+        Path.cwd() / "backend" / ".env"
+    ]
+    for p in possible_paths:
+        if p.exists():
+            try:
+                with open(p, "r", encoding="utf-8-sig") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith("#") and "=" in line:
+                            k, v = line.split("=", 1)
+                            os.environ[k.strip()] = v.strip()
+                break
+            except Exception:
+                pass
+
+_load_env()
 
 class LLMService:
     """
     Mistral AI Cloud Inference Service:
     Executes live analytical cross-agent debate between Market, Evidence, and Mirror agents.
     """
-    MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY", "")
     MISTRAL_BASE_URL = "https://api.mistral.ai/v1"
-    MISTRAL_MODEL = os.environ.get("MISTRAL_MODEL", "mistral-small-latest")
+
+    @classmethod
+    def get_api_key(cls) -> str:
+        _load_env()
+        return os.environ.get("MISTRAL_API_KEY", "").strip()
+
+    @classmethod
+    def get_model(cls) -> str:
+        _load_env()
+        return os.environ.get("MISTRAL_MODEL", "mistral-small-latest").strip()
 
     @classmethod
     async def generate_debate_argument(
@@ -36,16 +51,18 @@ class LLMService:
         context: str,
         timeout: float = 60.0
     ) -> Optional[str]:
-        if not cls.MISTRAL_API_KEY:
+        api_key = cls.get_api_key()
+        model = cls.get_model()
+        if not api_key:
             return None
 
         try:
             headers = {
-                "Authorization": f"Bearer {cls.MISTRAL_API_KEY}",
+                "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
             }
             payload = {
-                "model": cls.MISTRAL_MODEL,
+                "model": model,
                 "messages": [
                     {
                         "role": "system",
@@ -67,10 +84,11 @@ class LLMService:
                     if content:
                         return content.replace('"', '').replace('**', '').strip()
         except Exception as e:
-            print(f"[Mistral API Notice] {agent_name} live call fallback: {e}")
+            print(f"[Mistral API Notice] {agent_name} live call error: {e}")
             return None
 
         return None
+
     @classmethod
     async def generate_verdict_synthesis(
         cls,
@@ -89,12 +107,14 @@ class LLMService:
         Calls Mistral AI directly to synthesize the final personalized investment verdict,
         headline, explanation, and tailored conditions to change.
         """
-        if not cls.MISTRAL_API_KEY:
+        api_key = cls.get_api_key()
+        model = cls.get_model()
+        if not api_key:
             return None
 
         try:
             headers = {
-                "Authorization": f"Bearer {cls.MISTRAL_API_KEY}",
+                "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
             }
             prompt = (
@@ -113,7 +133,7 @@ class LLMService:
                 f'"conditions_to_change": ["<Condition 1>", "<Condition 2>", "<Condition 3>"]}}'
             )
             payload = {
-                "model": cls.MISTRAL_MODEL,
+                "model": model,
                 "messages": [
                     {
                         "role": "system",

@@ -1608,43 +1608,89 @@ interface AuthModalProps {
   onLoginSuccess: (account: UserAccount) => void;
 }
 
+// User credentials store (persists across sessions)
+const REGISTERED_USERS: Array<{ username: string; passwordHash: string; account: UserAccount }> = [
+  {
+    username: 'aarav_mehta',
+    passwordHash: 'password123',
+    account: DEMO_USERS[0]
+  },
+  {
+    username: 'priya_sharma',
+    passwordHash: 'password123',
+    account: DEMO_USERS[1]
+  },
+  {
+    username: 'vikram_sengupta',
+    passwordHash: 'password123',
+    account: DEMO_USERS[2]
+  }
+];
+
 function AuthModalContent({ currentUser, isLoggedIn, onClose, onLoginSuccess }: AuthModalProps) {
   const [tab, setTab] = useState<'login' | 'register' | 'saved'>('login');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [allocatedRisk, setAllocatedRisk] = useState<RiskProfileType>('moderate');
+  const [authError, setAuthError] = useState<string>('');
 
-  // Random Class Allocator for Prototype Registration
   const riskPool: RiskProfileType[] = ['conservative', 'moderate', 'aggressive'];
   
   const handleRegisterOrLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const uname = username.trim() || 'Custom Trader';
-    const initials = uname.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'CT';
-    const randomClass = riskPool[Math.floor(Math.random() * riskPool.length)];
-    const chosenClass = tab === 'register' ? (allocatedRisk || randomClass) : randomClass;
+    setAuthError('');
+    const uname = username.trim().toLowerCase();
 
-    const newAccount: UserAccount = {
-      id: `usr_${Date.now()}`,
-      name: uname,
-      email: `${uname.toLowerCase().replace(/\s+/g, '.')}@investor.in`,
-      avatar: initials,
-      accountType: `${chosenClass.toUpperCase()} Portfolio Account`,
-      totalPortfolioValue: chosenClass === 'conservative' ? 2450000 : chosenClass === 'moderate' ? 5800000 : 12500000,
-      cashBalance: chosenClass === 'conservative' ? 420000 : chosenClass === 'moderate' ? 950000 : 3100000,
-      risk_preference: chosenClass,
-      sector_exposure: chosenClass === 'conservative' ? 42.0 : chosenClass === 'moderate' ? 24.0 : 12.0,
-      concentration_pct: chosenClass === 'conservative' ? 35.0 : chosenClass === 'moderate' ? 20.0 : 15.0,
-      fomo_signals_score: chosenClass === 'conservative' ? 78.0 : chosenClass === 'moderate' ? 45.0 : 25.0,
-      behavioral_tendency: `Auto-assigned ${chosenClass} risk profile with automated behavioral twin synchronization.`,
-      portfolio: [
-        { symbol: 'RELIANCE', name: 'Reliance Industries Ltd', shares: 350, avgBuyPrice: 1240.0, currentPrice: 1302.30, sector: 'Energy & Conglomerate', allocationPct: chosenClass === 'conservative' ? 42.0 : 20.0 },
-        { symbol: 'HDFCBANK', name: 'HDFC Bank Ltd', shares: 480, avgBuyPrice: 720.0, currentPrice: 708.80, sector: 'Banking & Financials', allocationPct: 35.0 },
-        { symbol: 'TCS', name: 'Tata Consultancy Services', shares: 100, avgBuyPrice: 2400.0, currentPrice: 2352.60, sector: 'Information Technology', allocationPct: 23.0 }
-      ]
-    };
+    if (tab === 'login') {
+      // STRICT LOGIN VERIFICATION: Search registered accounts
+      const matched = REGISTERED_USERS.find(
+        (u) => u.username === uname && u.passwordHash === password
+      );
 
-    onLoginSuccess(newAccount);
+      if (!matched) {
+        setAuthError('Invalid credentials. Account not found or wrong password. Please register first or use saved personas.');
+        return;
+      }
+
+      onLoginSuccess(matched.account);
+    } else {
+      // REGISTRATION FLOW: Create and persist new user
+      if (REGISTERED_USERS.some(u => u.username === uname)) {
+        setAuthError('Username already registered. Please sign in instead.');
+        return;
+      }
+
+      const initials = uname.slice(0, 2).toUpperCase() || 'CT';
+      const chosenClass = allocatedRisk;
+
+      const newAccount: UserAccount = {
+        id: `usr_${Date.now()}`,
+        name: username.trim(),
+        email: `${uname}@investor.in`,
+        avatar: initials,
+        accountType: `${chosenClass.toUpperCase()} Portfolio Account`,
+        totalPortfolioValue: chosenClass === 'conservative' ? 2450000 : chosenClass === 'moderate' ? 5800000 : 12500000,
+        cashBalance: chosenClass === 'conservative' ? 420000 : chosenClass === 'moderate' ? 950000 : 3100000,
+        risk_preference: chosenClass,
+        sector_exposure: chosenClass === 'conservative' ? 42.0 : chosenClass === 'moderate' ? 24.0 : 12.0,
+        concentration_pct: chosenClass === 'conservative' ? 35.0 : chosenClass === 'moderate' ? 20.0 : 15.0,
+        fomo_signals_score: chosenClass === 'conservative' ? 78.0 : chosenClass === 'moderate' ? 45.0 : 25.0,
+        behavioral_tendency: `Auto-assigned ${chosenClass} risk profile with automated behavioral twin synchronization.`,
+        portfolio: [
+          { symbol: 'RELIANCE', name: 'Reliance Industries Ltd', shares: 350, avgBuyPrice: 1240.0, currentPrice: 1302.30, sector: 'Energy & Conglomerate', allocationPct: chosenClass === 'conservative' ? 42.0 : 20.0 },
+          { symbol: 'HDFCBANK', name: 'HDFC Bank Ltd', shares: 480, avgBuyPrice: 720.0, currentPrice: 708.80, sector: 'Banking & Financials', allocationPct: 35.0 },
+          { symbol: 'TCS', name: 'Tata Consultancy Services', shares: 100, avgBuyPrice: 2400.0, currentPrice: 2352.60, sector: 'Information Technology', allocationPct: 23.0 }
+        ]
+      };
+
+      REGISTERED_USERS.push({
+        username: uname,
+        passwordHash: password,
+        account: newAccount
+      });
+
+      onLoginSuccess(newAccount);
+    }
   };
 
   return (
@@ -1673,10 +1719,18 @@ function AuthModalContent({ currentUser, isLoggedIn, onClose, onLoginSuccess }: 
           </button>
         </div>
 
+        {/* Auth Error Banner */}
+        {authError && (
+          <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-semibold flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600" />
+            <span>{authError}</span>
+          </div>
+        )}
+
         {/* Auth Tabs */}
         <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-bold">
           <button
-            onClick={() => setTab('login')}
+            onClick={() => { setTab('login'); setAuthError(''); }}
             className={`flex-1 py-1.5 rounded-lg transition-all ${
               tab === 'login' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500'
             }`}
@@ -1684,7 +1738,7 @@ function AuthModalContent({ currentUser, isLoggedIn, onClose, onLoginSuccess }: 
             Sign In
           </button>
           <button
-            onClick={() => setTab('register')}
+            onClick={() => { setTab('register'); setAuthError(''); }}
             className={`flex-1 py-1.5 rounded-lg transition-all ${
               tab === 'register' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500'
             }`}
@@ -1692,7 +1746,7 @@ function AuthModalContent({ currentUser, isLoggedIn, onClose, onLoginSuccess }: 
             Register (Auto-Allocate Class)
           </button>
           <button
-            onClick={() => setTab('saved')}
+            onClick={() => { setTab('saved'); setAuthError(''); }}
             className={`flex-1 py-1.5 rounded-lg transition-all ${
               tab === 'saved' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-500'
             }`}
@@ -1709,11 +1763,16 @@ function AuthModalContent({ currentUser, isLoggedIn, onClose, onLoginSuccess }: 
               <input
                 type="text"
                 required
-                placeholder="e.g. rahul_sharma"
+                placeholder={tab === 'login' ? "e.g. aarav_mehta" : "Choose username"}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 outline-none text-slate-900 font-semibold"
               />
+              {tab === 'login' && (
+                <div className="text-[10px] text-slate-400">
+                  Demo Registered: <code className="text-blue-600 font-mono">aarav_mehta</code>, <code className="text-blue-600 font-mono">priya_sharma</code>, <code className="text-blue-600 font-mono">vikram_sengupta</code> (Password: <code className="font-mono">password123</code>)
+                </div>
+              )}
             </div>
 
             <div className="space-y-1">
@@ -1833,37 +1892,65 @@ function FintechLoginPage({ onLoginSuccess, stocks }: FintechLoginPageProps) {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [allocatedRisk, setAllocatedRisk] = useState<RiskProfileType>('moderate');
+  const [authError, setAuthError] = useState<string>('');
 
   const riskPool: RiskProfileType[] = ['conservative', 'moderate', 'aggressive'];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const uname = username.trim() || 'Institutional Trader';
-    const initials = uname.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'IT';
-    const randomClass = riskPool[Math.floor(Math.random() * riskPool.length)];
-    const chosenClass = tab === 'register' ? (allocatedRisk || randomClass) : randomClass;
+    setAuthError('');
+    const uname = username.trim().toLowerCase();
 
-    const newAccount: UserAccount = {
-      id: `usr_${Date.now()}`,
-      name: uname,
-      email: `${uname.toLowerCase().replace(/\s+/g, '.')}@investor.in`,
-      avatar: initials,
-      accountType: `${chosenClass.toUpperCase()} Account`,
-      totalPortfolioValue: chosenClass === 'conservative' ? 2450000 : chosenClass === 'moderate' ? 5800000 : 12500000,
-      cashBalance: chosenClass === 'conservative' ? 420000 : chosenClass === 'moderate' ? 950000 : 3100000,
-      risk_preference: chosenClass,
-      sector_exposure: chosenClass === 'conservative' ? 42.0 : chosenClass === 'moderate' ? 24.0 : 12.0,
-      concentration_pct: chosenClass === 'conservative' ? 35.0 : chosenClass === 'moderate' ? 20.0 : 15.0,
-      fomo_signals_score: chosenClass === 'conservative' ? 78.0 : chosenClass === 'moderate' ? 45.0 : 25.0,
-      behavioral_tendency: `Auto-assigned ${chosenClass} risk profile with automated behavioral twin synchronization.`,
-      portfolio: [
-        { symbol: 'RELIANCE', name: 'Reliance Industries Ltd', shares: 350, avgBuyPrice: 1240.0, currentPrice: 1302.30, sector: 'Energy & Conglomerate', allocationPct: chosenClass === 'conservative' ? 42.0 : 20.0 },
-        { symbol: 'HDFCBANK', name: 'HDFC Bank Ltd', shares: 480, avgBuyPrice: 720.0, currentPrice: 708.80, sector: 'Banking & Financials', allocationPct: 35.0 },
-        { symbol: 'TCS', name: 'Tata Consultancy Services', shares: 100, avgBuyPrice: 2400.0, currentPrice: 2352.60, sector: 'Information Technology', allocationPct: 23.0 }
-      ]
-    };
+    if (tab === 'login') {
+      // STRICT LOGIN VERIFICATION
+      const matched = REGISTERED_USERS.find(
+        (u) => u.username === uname && u.passwordHash === password
+      );
 
-    onLoginSuccess(newAccount);
+      if (!matched) {
+        setAuthError('Access Denied: Unregistered participant credentials. Please register below or use 1-Click Demo.');
+        return;
+      }
+
+      onLoginSuccess(matched.account);
+    } else {
+      // REGISTRATION FLOW
+      if (REGISTERED_USERS.some(u => u.username === uname)) {
+        setAuthError('Username already registered. Please sign in instead.');
+        return;
+      }
+
+      const initials = uname.slice(0, 2).toUpperCase() || 'IT';
+      const chosenClass = allocatedRisk;
+
+      const newAccount: UserAccount = {
+        id: `usr_${Date.now()}`,
+        name: username.trim(),
+        email: `${uname}@investor.in`,
+        avatar: initials,
+        accountType: `${chosenClass.toUpperCase()} Account`,
+        totalPortfolioValue: chosenClass === 'conservative' ? 2450000 : chosenClass === 'moderate' ? 5800000 : 12500000,
+        cashBalance: chosenClass === 'conservative' ? 420000 : chosenClass === 'moderate' ? 950000 : 3100000,
+        risk_preference: chosenClass,
+        sector_exposure: chosenClass === 'conservative' ? 42.0 : chosenClass === 'moderate' ? 24.0 : 12.0,
+        concentration_pct: chosenClass === 'conservative' ? 35.0 : chosenClass === 'moderate' ? 20.0 : 15.0,
+        fomo_signals_score: chosenClass === 'conservative' ? 78.0 : chosenClass === 'moderate' ? 45.0 : 25.0,
+        behavioral_tendency: `Auto-assigned ${chosenClass} risk profile with automated behavioral twin synchronization.`,
+        portfolio: [
+          { symbol: 'RELIANCE', name: 'Reliance Industries Ltd', shares: 350, avgBuyPrice: 1240.0, currentPrice: 1302.30, sector: 'Energy & Conglomerate', allocationPct: chosenClass === 'conservative' ? 42.0 : 20.0 },
+          { symbol: 'HDFCBANK', name: 'HDFC Bank Ltd', shares: 480, avgBuyPrice: 720.0, currentPrice: 708.80, sector: 'Banking & Financials', allocationPct: 35.0 },
+          { symbol: 'TCS', name: 'Tata Consultancy Services', shares: 100, avgBuyPrice: 2400.0, currentPrice: 2352.60, sector: 'Information Technology', allocationPct: 23.0 }
+        ]
+      };
+
+      REGISTERED_USERS.push({
+        username: uname,
+        passwordHash: password,
+        account: newAccount
+      });
+
+      onLoginSuccess(newAccount);
+    }
   };
 
   const tickerItems = stocks.length > 0 ? stocks : [
@@ -1995,7 +2082,7 @@ function FintechLoginPage({ onLoginSuccess, stocks }: FintechLoginPageProps) {
               {/* Navigation Tabs */}
               <div className="flex items-center bg-[#091226] p-1 rounded-xl text-xs font-bold mt-4 border border-[#1b2b52]">
                 <button
-                  onClick={() => setTab('login')}
+                  onClick={() => { setTab('login'); setAuthError(''); }}
                   className={`flex-1 py-1.5 rounded-lg transition-all ${
                     tab === 'login' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
                   }`}
@@ -2003,7 +2090,7 @@ function FintechLoginPage({ onLoginSuccess, stocks }: FintechLoginPageProps) {
                   Sign In
                 </button>
                 <button
-                  onClick={() => setTab('register')}
+                  onClick={() => { setTab('register'); setAuthError(''); }}
                   className={`flex-1 py-1.5 rounded-lg transition-all ${
                     tab === 'register' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
                   }`}
@@ -2011,7 +2098,7 @@ function FintechLoginPage({ onLoginSuccess, stocks }: FintechLoginPageProps) {
                   Register
                 </button>
                 <button
-                  onClick={() => setTab('demo')}
+                  onClick={() => { setTab('demo'); setAuthError(''); }}
                   className={`flex-1 py-1.5 rounded-lg transition-all ${
                     tab === 'demo' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-400 hover:text-white'
                   }`}
@@ -2021,6 +2108,14 @@ function FintechLoginPage({ onLoginSuccess, stocks }: FintechLoginPageProps) {
               </div>
             </div>
 
+            {/* Auth Error Banner */}
+            {authError && (
+              <div className="p-3 bg-rose-500/20 border border-rose-500/40 rounded-xl text-rose-300 text-xs font-semibold flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+                <span>{authError}</span>
+              </div>
+            )}
+
             {/* TAB 1 & 2: Form */}
             {(tab === 'login' || tab === 'register') && (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs">
@@ -2029,11 +2124,16 @@ function FintechLoginPage({ onLoginSuccess, stocks }: FintechLoginPageProps) {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. aarav_mehta"
+                    placeholder={tab === 'login' ? "e.g. aarav_mehta" : "Choose username"}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-[#091226] border border-[#213567] focus:border-blue-500 outline-none text-white font-medium"
                   />
+                  {tab === 'login' && (
+                    <div className="text-[10px] text-slate-400 pt-0.5">
+                      Demo Registered: <code className="text-sky-400 font-mono">aarav_mehta</code>, <code className="text-sky-400 font-mono">priya_sharma</code>, <code className="text-sky-400 font-mono">vikram_sengupta</code> (Password: <code className="text-slate-300 font-mono">password123</code>)
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-1.5">
