@@ -12,6 +12,7 @@ from agents.sentiment_agent import SentimentAgent
 from agents.evidence_agent import EvidenceAgent
 from agents.mirror_agent import MirrorAgent
 from services.ollama_service import LLMService
+from services.data_service import DataService
 
 class DecisionEngine:
     def __init__(self):
@@ -121,18 +122,23 @@ class DecisionEngine:
                 "No adverse macro regulatory disclosures in upcoming review cycles"
             ]
 
-        # AGENT CONFLICT & DEBATE SYNTHESIS
-        debate_messages: List[AgentDebateMessage] = []
-        now_str = datetime.now().strftime("%H:%M:%S")
-
         # Conflict check: compare Market vs Evidence vs Mirror
         has_market_evidence_conflict = abs(market_res.score - (evidence_res.score if not degraded else 50)) > 15
         has_market_mirror_conflict = decision_gap >= 25
 
         conflict_level: RiskLevel = "high" if decision_gap > 35 and has_market_evidence_conflict else ("medium" if decision_gap > 20 else "low")
         conflict_detected = conflict_level in ["medium", "high"]
+        conflict_summary = (
+            f"Cross-agent tension detected: Technical momentum ({market_res.score:.0f}/100) conflicts with investor suitability ({investor_suit:.0f}/100)."
+            if conflict_detected else "Broad alignment across technical, fundamental, and behavioral dimensions."
+        )
 
-        # Structured Debate Dialogue (Mistral AI live generation with parallel execution & fallback)
+        # AGENT CONFLICT & DEBATE SYNTHESIS + LIVE MISTRAL VERDICT SYNTHESIS
+        stock_data = DataService.get_stock_data(stock)
+        live_price = stock_data.get("price", 1302.30)
+        live_change = stock_data.get("change_pct", 1.98)
+
+        # Launch Mistral AI Live Debate & Verdict Synthesis Concurrently
         market_msg_task = LLMService.generate_debate_argument(
             "Market Agent",
             stock,
@@ -148,10 +154,35 @@ class DecisionEngine:
             stock,
             f"Investor risk {risk_prof}, sector exposure {user_profile.portfolio_sector_exposure:.0f}%, FOMO score {user_profile.fomo_risk:.0f}/100, suitability {investor_suit:.0f}/100"
         )
-
-        market_llm, evidence_llm, mirror_llm = await asyncio.gather(
-            market_msg_task, evidence_msg_task, mirror_msg_task
+        verdict_synthesis_task = LLMService.generate_verdict_synthesis(
+            stock=stock,
+            stock_price=live_price,
+            stock_change_pct=live_change,
+            risk_profile=risk_prof,
+            market_opp=market_opp,
+            investor_suit=investor_suit,
+            decision_gap=decision_gap,
+            fomo_risk=user_profile.fomo_risk,
+            sector_exposure=user_profile.portfolio_sector_exposure
         )
+
+        market_llm, evidence_llm, mirror_llm, mistral_verdict_json = await asyncio.gather(
+            market_msg_task, evidence_msg_task, mirror_msg_task, verdict_synthesis_task
+        )
+
+        # Apply Live Mistral Verdict if received
+        if mistral_verdict_json and isinstance(mistral_verdict_json, dict):
+            if "verdict" in mistral_verdict_json and mistral_verdict_json["verdict"] in ["BUY WITH CAUTION", "WAIT FOR CONFIRMATION", "AVOID FOR NOW", "MONITOR"]:
+                verdict = mistral_verdict_json["verdict"]
+            if "verdict_headline" in mistral_verdict_json and mistral_verdict_json["verdict_headline"]:
+                verdict_headline = str(mistral_verdict_json["verdict_headline"]).strip()
+            if "verdict_explanation" in mistral_verdict_json and mistral_verdict_json["verdict_explanation"]:
+                verdict_explanation = str(mistral_verdict_json["verdict_explanation"]).strip()
+            if "conditions_to_change" in mistral_verdict_json and isinstance(mistral_verdict_json["conditions_to_change"], list) and len(mistral_verdict_json["conditions_to_change"]) > 0:
+                conditions = [str(c).strip() for c in mistral_verdict_json["conditions_to_change"]]
+
+        debate_messages: List[AgentDebateMessage] = []
+        now_str = datetime.now().strftime("%H:%M:%S")
 
         default_market_msg = "Momentum remains strong with high volume breakout. Technical structure suggests further upside potential."
         default_evidence_msg = ("While earnings growth is robust, EV/EBITDA multiple (12.8x) is extended vs historical averages. Valuation does not offer deep margin of safety." 
@@ -197,9 +228,12 @@ class DecisionEngine:
             cq_explanation = "Analysis completed with reduced evidence coverage due to offline filings feed."
 
         total_latency = time.time() - start_time
+        stock_data = DataService.get_stock_data(stock)
 
         return AnalysisResponse(
             stock=stock,
+            stock_price=stock_data.get("price"),
+            stock_change_pct=stock_data.get("change_pct"),
             timestamp=datetime.now().isoformat(),
             user_profile=user_profile,
             market_agent=market_res,

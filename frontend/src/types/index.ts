@@ -6,6 +6,32 @@ export type RiskLevel = 'low' | 'medium' | 'high';
 export type GapClassification = 'LOW GAP' | 'MODERATE GAP' | 'HIGH GAP';
 export type VerdictType = 'BUY WITH CAUTION' | 'WAIT FOR CONFIRMATION' | 'AVOID FOR NOW' | 'MONITOR';
 
+export interface PortfolioHolding {
+  symbol: string;
+  name: string;
+  shares: number;
+  avgBuyPrice: number;
+  currentPrice: number;
+  sector: string;
+  allocationPct: number;
+}
+
+export interface UserAccount {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  accountType: string;
+  totalPortfolioValue: number;
+  cashBalance: number;
+  risk_preference: RiskProfileType;
+  portfolio: PortfolioHolding[];
+  sector_exposure: number;
+  concentration_pct: number;
+  fomo_signals_score: number;
+  behavioral_tendency: string;
+}
+
 export interface UserProfile {
   risk_profile: RiskProfileType;
   portfolio_sector_exposure: number;
@@ -79,6 +105,8 @@ export interface AgentDebateMessage {
 
 export interface AnalysisResponse {
   stock: string;
+  stock_price?: number;
+  stock_change_pct?: number;
   timestamp: string;
   user_profile: UserProfile;
   market_agent: MarketAgentOutput;

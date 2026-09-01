@@ -116,25 +116,49 @@ USER_PROFILES = {
 }
 
 class DataService:
-    @staticmethod
-    def get_stock_data(stock: str) -> Dict[str, Any]:
-        symbol = stock.upper().strip()
-        if symbol not in STOCKS_DATA:
-            symbol = "RELIANCE"
-        return STOCKS_DATA[symbol]
+    _live_cache: Dict[str, Any] = {}
 
-    @staticmethod
-    def get_all_stocks() -> List[Dict[str, Any]]:
-        return [
-            {
+    @classmethod
+    def get_stock_data(cls, stock: str) -> Dict[str, Any]:
+        symbol = stock.upper().strip()
+        base = dict(STOCKS_DATA.get(symbol, STOCKS_DATA["RELIANCE"]))
+
+        # Attempt Free Live Market Quote Fetch via Yahoo Finance (NSE: .NS)
+        try:
+            import yfinance as yf
+            ticker_sym = f"{symbol}.NS"
+            ticker = yf.Ticker(ticker_sym)
+            hist = ticker.history(period="5d", interval="1d")
+            
+            if not hist.empty and len(hist) >= 2:
+                last_price = float(hist['Close'].iloc[-1])
+                prev_price = float(hist['Close'].iloc[-2])
+                change_pct = float(((last_price - prev_price) / prev_price) * 100)
+                
+                base["price"] = round(last_price, 2)
+                base["change_pct"] = round(change_pct, 2)
+                cls._live_cache[symbol] = {"price": base["price"], "change_pct": base["change_pct"]}
+        except Exception as e:
+            # If rate-limited or offline, use last live cached value if available
+            if symbol in cls._live_cache:
+                base["price"] = cls._live_cache[symbol]["price"]
+                base["change_pct"] = cls._live_cache[symbol]["change_pct"]
+
+        return base
+
+    @classmethod
+    def get_all_stocks(cls) -> List[Dict[str, Any]]:
+        results = []
+        for k in STOCKS_DATA.keys():
+            data = cls.get_stock_data(k)
+            results.append({
                 "symbol": k,
-                "name": v["name"],
-                "sector": v["sector"],
-                "price": v["price"],
-                "change_pct": v["change_pct"]
-            }
-            for k, v in STOCKS_DATA.items()
-        ]
+                "name": data["name"],
+                "sector": data["sector"],
+                "price": data["price"],
+                "change_pct": data["change_pct"]
+            })
+        return results
 
     @staticmethod
     def get_evidence_documents(stock: str) -> List[Dict[str, Any]]:

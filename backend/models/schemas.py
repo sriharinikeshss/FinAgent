@@ -1,4 +1,4 @@
-﻿from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field
 from typing import List, Optional, Literal, Dict, Any
 
 RiskProfileType = Literal["conservative", "moderate", "aggressive"]
@@ -78,6 +78,8 @@ class AgentDebateMessage(BaseModel):
 
 class AnalysisResponse(BaseModel):
     stock: str
+    stock_price: Optional[float] = None
+    stock_change_pct: Optional[float] = None
     timestamp: str
     user_profile: UserProfile
     market_agent: MarketAgentOutput
